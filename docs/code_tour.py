@@ -73,7 +73,7 @@ def tour():
     print_slow("🎉 导览结束！请阅读 docs/guide.md 获取更多详情。")
 
 if __name__ == "__main__":
-    # Ensure we are in the project root
+    # 确保我们在项目根目录下
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     os.chdir(project_root)
     tour()

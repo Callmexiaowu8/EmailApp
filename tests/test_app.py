@@ -10,7 +10,7 @@ def test_index_page(client):
 
 @patch('app.email_utils.smtplib.SMTP')
 def test_send_email_success(mock_smtp, client, app):
-    # Mock SMTP instance
+    # 模拟 SMTP 实例
     instance = mock_smtp.return_value
     instance.sendmail.return_value = {}
     
@@ -18,7 +18,7 @@ def test_send_email_success(mock_smtp, client, app):
         'content': 'Test Message',
     }
     
-    # We need to configure MAIL settings in app config for the test
+    # 我们需要在应用配置中配置邮件设置以进行测试
     app.config['MAIL_SERVER'] = 'localhost'
     app.config['MAIL_DEFAULT_SENDER'] = 'sender@example.com'
     app.config['MAIL_RECIPIENT'] = 'recipient@example.com'
@@ -54,7 +54,7 @@ def test_send_email_with_file(mock_smtp, client, app):
 
 @patch('app.email_utils.smtplib.SMTP')
 def test_send_email_retry_failure(mock_smtp, client, app):
-    # Simulate exception
+    # 模拟异常
     mock_smtp.side_effect = Exception("Connection refused")
     
     data = {
@@ -65,10 +65,10 @@ def test_send_email_retry_failure(mock_smtp, client, app):
     app.config['MAIL_DEFAULT_SENDER'] = 'sender@example.com'
     app.config['MAIL_RECIPIENT'] = 'recipient@example.com'
 
-    # Speed up sleep
+    # 加速睡眠（跳过等待）
     with patch('time.sleep', return_value=None):
         response = client.post('/', data=data, follow_redirects=True)
     
     assert response.status_code == 200
     assert b"Failed to send email" in response.data
-    assert mock_smtp.call_count == 3 # 3 retries
+    assert mock_smtp.call_count == 3 # 3 次重试

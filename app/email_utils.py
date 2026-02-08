@@ -8,7 +8,7 @@ from email import encoders
 import os
 from flask import current_app
 
-# Configure logging
+# 配置日志记录
 logging.basicConfig(
     filename='email_app.log',
     level=logging.INFO,
@@ -17,8 +17,8 @@ logging.basicConfig(
 
 def send_email_with_attachment(subject, body, file_path, recipient):
     """
-    Send an email with an attachment using SMTP.
-    Includes retry mechanism and logging.
+    使用 SMTP 发送带附件的邮件。
+    包含重试机制和日志记录。
     """
     msg = MIMEMultipart()
     sender = current_app.config['MAIL_DEFAULT_SENDER']
@@ -48,7 +48,7 @@ def send_email_with_attachment(subject, body, file_path, recipient):
     retries = 3
     for attempt in range(retries):
         try:
-            # Check if server config exists
+            # 检查服务器配置是否存在
             if not current_app.config['MAIL_SERVER']:
                 logging.error("MAIL_SERVER not configured")
                 return False
@@ -70,7 +70,7 @@ def send_email_with_attachment(subject, body, file_path, recipient):
         except Exception as e:
             logging.error(f"Attempt {attempt + 1} failed: {str(e)}")
             if attempt < retries - 1:
-                time.sleep(2)  # Wait before retry
+                time.sleep(2)  # 重试前等待
             else:
                 logging.error("All retry attempts failed.")
                 return False

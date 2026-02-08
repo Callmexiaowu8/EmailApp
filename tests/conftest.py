@@ -18,7 +18,7 @@ def app():
     
     yield app
     
-    # Cleanup
+    # 清理
     if os.path.exists('tests/uploads'):
         shutil.rmtree('tests/uploads')
 

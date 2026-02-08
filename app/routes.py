@@ -46,7 +46,7 @@ def index():
         else:
             flash('Failed to send email. Check logs.', 'danger')
         
-        # Clean up uploaded file
+        # 清理上传的文件
         if file_path and os.path.exists(file_path):
             os.remove(file_path)
             

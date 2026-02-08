@@ -1,5 +1,5 @@
 :root {
-    /* Color Palette - Refined Indigo & Slate */
+    /* 调色板 - 精致的靛蓝与石板灰 */
     --primary-color: #4F46E5;
     --primary-hover: #4338CA;
     --secondary-color: #64748B;
@@ -11,19 +11,19 @@
     --error-color: #EF4444;
     --success-color: #10B981;
     
-    /* Spacing & Sizing */
+    /* 间距与尺寸 */
     --radius-sm: 0.5rem;
     --radius-md: 0.75rem;
     --radius-lg: 1rem;
     --radius-xl: 1.5rem;
     
-    /* Shadows */
+    /* 阴影 */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-glow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 
-    /* Transitions */
+    /* 过渡效果 */
     --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -35,7 +35,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Typography */
+/* 排版 */
 h1, h2, h3, h4, h5, h6 {
     color: var(--text-main);
     font-weight: 600;
@@ -46,13 +46,13 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-secondary) !important;
 }
 
-/* Card Styling */
+/* 卡片样式 */
 .custom-card {
     background: var(--surface-color);
     border-radius: var(--radius-xl);
     border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(10px); /* Glassmorphism hint if supported */
+    backdrop-filter: blur(10px); /* 玻璃拟态效果（如果支持） */
     overflow: hidden;
     transition: var(--transition-base);
 }
@@ -72,7 +72,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 1.5rem 2.5rem 2.5rem;
 }
 
-/* Form Elements */
+/* 表单元素 */
 .form-label {
     font-size: 0.875rem;
     font-weight: 500;
@@ -101,7 +101,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #94A3B8;
 }
 
-/* Input Group / Info Box - Modern Card Style (Default) */
+/* 输入组 / 信息框 - 现代卡片风格（默认） */
 .info-box-modern {
     background-color: #FFFFFF;
     border: 1px solid var(--border-color);
@@ -197,7 +197,7 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
 }
 
-/* Style 2: Minimalist Line Style */
+/* 样式 2：极简线条风格 */
 .info-box-minimalist {
     background: transparent;
     padding: 1rem 0;
@@ -222,7 +222,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
 }
 
-/* Style 3: Bubble/Capsule Style */
+/* 样式 3：气泡/胶囊风格 */
 .info-box-bubble {
     display: flex;
     flex-direction: column;
@@ -254,7 +254,7 @@ h1, h2, h3, h4, h5, h6 {
     border-right: 1px solid #E2E8F0;
 }
 
-/* Buttons */
+/* 按钮 */
 .btn-primary-custom {
     background-color: var(--primary-color);
     border: none;
@@ -285,7 +285,7 @@ h1, h2, h3, h4, h5, h6 {
     transform: none;
 }
 
-/* File Input Customization (Wrapper) */
+/* 文件输入自定义（包装器） */
 .file-upload-wrapper {
     position: relative;
     border: 2px dashed var(--border-color);
@@ -302,7 +302,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #F0F9FF;
 }
 
-/* Alerts */
+/* 警告框 */
 .alert-custom {
     border-radius: var(--radius-md);
     border: none;
@@ -346,7 +346,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: var(--radius-xl);
 }
 
-/* Animations */
+/* 动画 */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
