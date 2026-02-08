@@ -1,56 +1,67 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request
+from flask import Blueprint, current_app, request, jsonify
 from werkzeug.utils import secure_filename
 import os
-from app.forms import EmailForm
 from app.email_utils import send_email_with_attachment
 
-bp = Blueprint('main', __name__)
+bp = Blueprint("main", __name__)
 
-@bp.route('/', methods=['GET', 'POST'])
+
+@bp.route("/", methods=["GET", "POST"])
 def index():
-    form = EmailForm()
-    
-    # 默认填充收件人
-    if request.method == 'GET' and not form.recipient.data:
-        form.recipient.data = current_app.config.get('MAIL_RECIPIENT')
+    message = ""
+    if request.method == "POST":
+        """
+        接收表单提交，执行邮件发送逻辑。
+        """
+        # 获取表单数据
+        recipient = request.form.get("recipient")
+        content = request.form.get("content")
+        file = request.files.get("file")
 
-    if form.validate_on_submit():
-        recipient = form.recipient.data
-        text_content = form.content.data
-        file = form.file.data
-        file_path = None
-
-        if file:
-            filename = secure_filename(file.filename)
-            upload_folder = current_app.config['UPLOAD_FOLDER']
-            if not os.path.exists(upload_folder):
-                os.makedirs(upload_folder)
-            
-            file_path = os.path.join(upload_folder, filename)
-            file.save(file_path)
-        
-        # recipient = current_app.config['MAIL_RECIPIENT'] # Already got from form
+        # 如果表单未提供收件人，尝试从配置获取
         if not recipient:
-            flash('Recipient email not configured!', 'danger')
-            return redirect(url_for('main.index'))
+            recipient = current_app.config.get("MAIL_RECIPIENT")
 
-        success = send_email_with_attachment(
-            subject="New Submission from EmailApp",
-            body=text_content,
-            file_path=file_path,
-            recipient=recipient
-        )
-
-        if success:
-            flash('Email sent successfully!', 'success')
+        if not recipient:
+            message = "Error: Recipient not configured and not provided in form."
         else:
-            flash('Failed to send email. Check logs.', 'danger')
-        
-        # 清理上传的文件
-        if file_path and os.path.exists(file_path):
-            os.remove(file_path)
-            
-        return redirect(url_for('main.index'))
-    
-    sender = current_app.config.get('MAIL_DEFAULT_SENDER')
-    return render_template('index.html', form=form, sender=sender)
+            if not content:
+                content = "No content provided."
+
+            file_path = None
+            if file and file.filename:
+                filename = secure_filename(file.filename)
+                upload_folder = current_app.config.get("UPLOAD_FOLDER", "uploads")
+                if not os.path.exists(upload_folder):
+                    os.makedirs(upload_folder)
+
+                file_path = os.path.join(upload_folder, filename)
+                file.save(file_path)
+
+            # 调用核心后端功能
+            success = send_email_with_attachment(
+                subject="Email from Raw Frontend",
+                body=content,
+                file_path=file_path,
+                recipient=recipient,
+            )
+
+            # 清理上传的文件
+            if file_path and os.path.exists(file_path):
+                os.remove(file_path)
+
+            if success:
+                message = "Email sent successfully!"
+            else:
+                message = "Failed to send email. Check logs."
+
+    # 返回表单和消息
+    return f"""
+    <div style="color: red;">{message}</div>
+    <form action="/" method="post" enctype="multipart/form-data">
+        收件人: <input type="text" name="recipient"><br>
+        内容: <textarea name="content"></textarea><br>
+        附件: <input type="file" name="file"><br>
+        <input type="submit" value="发送">
+    </form>
+    """
