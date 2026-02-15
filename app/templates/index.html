@@ -1,0 +1,19 @@
+<h1>Send Email</h1>
+<div id="flash-message" style="color: red;" data-message='{{ message|tojson }}'>{{ message }}</div>
+<script>
+  (function () {
+    var el = document.getElementById("flash-message");
+    if (!el) return;
+    var message = JSON.parse(el.dataset.message || '""');
+    if (!message) return;
+    setTimeout(function () {
+      if (el) el.style.display = "none";
+    }, 5000);
+  })();
+</script>
+<form action="/" method="post" enctype="multipart/form-data">
+  收件人: <input type="text" name="recipient"><br>
+  内容: <textarea name="content"></textarea><br>
+  附件: <input type="file" name="file"><br>
+  <input type="submit" value="发送">
+</form>
