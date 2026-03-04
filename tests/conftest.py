@@ -15,11 +15,15 @@ class TestConfig(Config):
     TESTING = True
     WTF_CSRF_ENABLED = False
     UPLOAD_FOLDER = 'tests/uploads'
+    DATABASE_URL = 'sqlite+pysqlite:///tests/test.db'
 
 @pytest.fixture
 def app():
     if not os.path.exists('tests/uploads'):
         os.makedirs('tests/uploads')
+
+    if os.path.exists('tests/test.db'):
+        os.remove('tests/test.db')
     
     app = create_app(TestConfig)
     
@@ -28,6 +32,8 @@ def app():
     # 清理
     if os.path.exists('tests/uploads'):
         shutil.rmtree('tests/uploads')
+    if os.path.exists('tests/test.db'):
+        os.remove('tests/test.db')
 
 @pytest.fixture
 def client(app):

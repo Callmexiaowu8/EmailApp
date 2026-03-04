@@ -15,13 +15,18 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-def send_email_with_attachment(subject, body, file_path, recipient):
+def send_email_with_attachment(subject, body, file_path, recipient, smtp_config=None):
     """
     使用 SMTP 发送带附件的邮件。
     包含重试机制和日志记录。
     """
+    def get_config_value(key, default=None):
+        if smtp_config is not None and key in smtp_config and smtp_config[key] is not None:
+            return smtp_config[key]
+        return current_app.config.get(key, default)
+
     msg = MIMEMultipart()
-    sender = current_app.config['MAIL_DEFAULT_SENDER']
+    sender = get_config_value('MAIL_DEFAULT_SENDER')
     if not sender:
         logging.error("MAIL_DEFAULT_SENDER not configured")
         return False
@@ -48,18 +53,26 @@ def send_email_with_attachment(subject, body, file_path, recipient):
     retries = 3
     for attempt in range(retries):
         try:
-            # 检查服务器配置是否存在
-            if not current_app.config['MAIL_SERVER']:
+            mail_server = get_config_value('MAIL_SERVER')
+            mail_port = int(get_config_value('MAIL_PORT') or 0)
+            mail_use_tls = bool(get_config_value('MAIL_USE_TLS', True))
+            mail_username = get_config_value('MAIL_USERNAME')
+            mail_password = get_config_value('MAIL_PASSWORD')
+
+            if not mail_server:
                 logging.error("MAIL_SERVER not configured")
                 return False
+            if not mail_port:
+                logging.error("MAIL_PORT not configured")
+                return False
 
-            server = smtplib.SMTP(current_app.config['MAIL_SERVER'], current_app.config['MAIL_PORT'])
+            server = smtplib.SMTP(mail_server, mail_port)
             
-            if current_app.config['MAIL_USE_TLS']:
+            if mail_use_tls:
                 server.starttls()
             
-            if current_app.config['MAIL_USERNAME'] and current_app.config['MAIL_PASSWORD']:
-                server.login(current_app.config['MAIL_USERNAME'], current_app.config['MAIL_PASSWORD'])
+            if mail_username and mail_password:
+                server.login(mail_username, mail_password)
             
             text = msg.as_string()
             server.sendmail(sender, recipient, text)

@@ -1,4 +1,16 @@
 <h1>Send Email</h1>
+{% if user %}
+  <div>
+    已登录：{{ user.username }}
+    <a href="{{ url_for('main.email_settings') }}">邮箱配置</a>
+    <a href="{{ url_for('main.logout') }}">退出</a>
+  </div>
+{% else %}
+  <div>
+    <a href="{{ url_for('main.login') }}">登录</a>
+    <a href="{{ url_for('main.register') }}">注册</a>
+  </div>
+{% endif %}
 <div id="flash-message" style="color: red;" data-message='{{ message|tojson }}'>{{ message }}</div>
 <script>
   (function () {

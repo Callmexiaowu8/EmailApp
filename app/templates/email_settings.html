@@ -1,0 +1,17 @@
+<h1>邮箱配置</h1>
+{% if user %}
+  <div>当前用户：{{ user.username }}</div>
+{% endif %}
+<div style="color: red;">{{ message }}</div>
+<form action="{{ url_for('main.email_settings') }}" method="post">
+  邮箱: <input type="text" name="email" value="{{ account.email if account else '' }}"><br>
+  SMTP 服务器: <input type="text" name="smtp_server" value="{{ account.smtp_server if account else '' }}"><br>
+  SMTP 端口: <input type="text" name="smtp_port" value="{{ account.smtp_port if account else 587 }}"><br>
+  使用 TLS: <input type="checkbox" name="use_tls" {% if not account or account.use_tls == 1 %}checked{% endif %}><br>
+  授权码: <input type="password" name="auth_code" value="{{ account.auth_code if account else '' }}"><br>
+  设为默认: <input type="checkbox" name="is_default" {% if account and account.is_default == 1 %}checked{% endif %}><br>
+  <input type="submit" value="保存">
+</form>
+<div>
+  <a href="{{ url_for('main.index_get') }}">返回首页</a>
+</div>

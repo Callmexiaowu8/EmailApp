@@ -1,0 +1,11 @@
+<h1>注册</h1>
+<div style="color: red;">{{ message }}</div>
+<form action="{{ url_for('main.register') }}" method="post">
+  用户名: <input type="text" name="username"><br>
+  密码: <input type="password" name="password"><br>
+  确认密码: <input type="password" name="confirm_password"><br>
+  <input type="submit" value="注册">
+</form>
+<div>
+  已有账号？<a href="{{ url_for('main.login') }}">去登录</a>
+</div>
