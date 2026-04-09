@@ -30,16 +30,15 @@
       {% endwith %}
     </div>
 
-    <div class="container py-5 animate-fade-in">
+    <div class="container py-3 animate-fade-in">
       <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10">
             
-          <div class="text-center mb-5">
-            <div class="mb-3 text-primary">
-                <i class="bi bi-envelope-paper-heart-fill display-4"></i>
+          <div class="text-center mb-3">
+            <div class="mb-2 text-primary">
+                <i class="bi bi-envelope-paper-heart-fill display-5"></i>
             </div>
-            <h1 class="h2 fw-bold mb-2">邮件发送服务</h1>
-            <p class="text-secondary-custom">快速、安全地发送您的邮件和附件</p>
+            <h1 class="h1 fw-bold mb-1">邮件发送服务</h1>
           </div>
 
           <div class="custom-card">
@@ -55,30 +54,57 @@
                 {{ form.hidden_tag() }}
                 
                 <!-- 头部信息区域：现代卡片风格 -->
-                <div class="info-box-modern mb-4">
+                <div class="info-box-modern mb-3">
                     <!-- 发件人行 -->
                     <div class="info-row">
-                        <div class="info-label-modern">发件人</div>
+                        <label class="info-label-modern mb-0">发件人</label>
                         <div class="info-value-modern">
                             <div class="avatar-circle">
                                 <i class="bi bi-person-fill"></i>
                             </div>
-                            <span class="text-dark">{{ sender }}</span>
+                            <div class="sender-container">
+                                <span class="sender-tag">{{ sender }}</span>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- 收件人行 -->
+                    <!-- 收件人行 - 多标签式输入 -->
                     <div class="info-row">
-                        <label for="{{ form.recipient.id }}" class="info-label-modern mb-0">收件人</label>
+                        <label class="info-label-modern mb-0">收件人</label>
                         <div class="info-value-modern">
                             <div class="avatar-circle" style="background-color: #F0FDF4; color: #16A34A;">
                                 <i class="bi bi-envelope-fill"></i>
                             </div>
-                            {{ form.recipient(class="input-invisible", placeholder="请输入收件人邮箱...") }}
+                            <div class="recipient-input-container" id="recipientContainer">
+                                <!-- 标签将在这里动态生成 -->
+                                <input type="text" 
+                                       class="recipient-input-field" 
+                                       id="recipientInput" 
+                                       
+                                       autocomplete="off">
+                            </div>
+                            {{ form.recipient(class="d-none", id="recipientField") }}
                         </div>
                     </div>
                     
                     {% for error in form.recipient.errors %}
+                        <div class="text-danger mt-2 small ps-5 ms-4 animate-fade-in">
+                            <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="info-row">
+                        <label for="{{ form.subject.id }}" class="info-label-modern mb-0">主题</label>
+                        <div class="info-value-modern">
+                            <div class="avatar-circle" style="background-color: #FEF3C7; color: #D97706;">
+                                <i class="bi bi-chat-left-text-fill"></i>
+                            </div>
+                            <div class="subject-container">
+                                {{ form.subject(class="input-invisible") }}
+                            </div>
+                        </div>
+                    </div>
+                    {% for error in form.subject.errors %}
                         <div class="text-danger mt-2 small ps-5 ms-4 animate-fade-in">
                             <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
                         </div>
@@ -93,21 +119,32 @@
                 (Refer to style.css for full implementation details)
                 -->
 
-                <div class="mb-4">
+                <div class="mb-3">
                   {{ form.content.label(class="form-label") }}
-                  {{ form.content(class="form-control", rows=6, placeholder="请输入您想要发送的内容...") }}
+                  <div class="rte-toolbar mb-2">
+                    <button class="btn btn-sm btn-light rte-btn" type="button" data-cmd="bold" aria-label="加粗"><i class="bi bi-type-bold"></i></button>
+                    <button class="btn btn-sm btn-light rte-btn" type="button" data-cmd="italic" aria-label="斜体"><i class="bi bi-type-italic"></i></button>
+                    <button class="btn btn-sm btn-light rte-btn" type="button" data-cmd="underline" aria-label="下划线"><i class="bi bi-type-underline"></i></button>
+                    <span class="rte-divider"></span>
+                    <button class="btn btn-sm btn-light rte-btn" type="button" id="insertImageBtn" aria-label="插入图片"><i class="bi bi-image"></i></button>
+                    <input class="d-none" type="file" id="inlineImagePicker" accept="image/*" multiple>
+                    <span class="rte-hint ms-auto d-none d-md-inline">支持：粘贴 / 拖拽图片到编辑器</span>
+                  </div>
+                  <div id="rteEditor" class="rte-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="请输入您想要发送的内容..."></div>
+                  {{ form.content(class="d-none", id="contentField") }}
+                  <div id="inlineUploadList" class="inline-upload-list mt-2 d-none"></div>
                   {% for error in form.content.errors %}
                     <div class="text-danger mt-1 small"><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
                   {% endfor %}
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-3">
                   <label class="form-label">附件上传</label>
-                  <div class="file-upload-wrapper" onclick="document.getElementById('file').click()">
-                      <i class="bi bi-cloud-arrow-up display-6 text-primary mb-2"></i>
-                      <p class="mb-0 fw-medium">点击或拖拽文件到此处</p>
-                      <p class="text-secondary small mb-0">支持 PDF, Word, 图片等 (Max 16MB)</p>
-                      {{ form.file(class="d-none", onchange="updateFileName(this)") }}
+                  <div class="file-upload-wrapper" id="fileUploadWrapper" ondragover="handleFileDragOver(event)" ondragleave="handleFileDragLeave(event)" ondrop="handleFileDrop(event)">
+                      <i class="bi bi-cloud-arrow-up display-5 text-primary mb-1"></i>
+                      <p class="mb-0 fw-medium small">点击或拖拽文件到此处</p>
+                      <p class="text-secondary small mb-0">支持 PDF, Word, 图片等 (最大 30MB)</p>
+                      {{ form.file(class="d-none", id="fileInput", onchange="updateFileName(this)") }}
                   </div>
                   <div id="fileNameDisplay" class="mt-2 text-success small fw-medium text-center animate-fade-in d-none">
                       <i class="bi bi-check2-circle me-1"></i> <span id="fileNameText"></span>
@@ -130,14 +167,14 @@
                     </div>
                 </div>
 
-                <div class="d-grid pt-2">
-                  {{ form.submit(class="btn btn-primary-custom btn-lg", id="submitBtn") }}
+                <div class="d-grid pt-1">
+                  {{ form.submit(class="btn btn-primary-custom", id="submitBtn") }}
                 </div>
               </form>
             </div>
           </div>
           
-          <div class="text-center mt-5 text-secondary small">
+          <div class="text-center mt-3 text-secondary small">
             <p>&copy; 2024 Email Service App. All rights reserved.</p>
           </div>
 
@@ -146,7 +183,171 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='compose_editor.js') }}"></script>
     <script>
+      // HTML转义函数
+      function escapeHtml(s) {
+        const div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      // 多收件人标签管理
+      const RecipientManager = {
+        container: null,
+        input: null,
+        hiddenField: null,
+        recipients: [],
+
+        init() {
+          this.container = document.getElementById('recipientContainer');
+          this.input = document.getElementById('recipientInput');
+          this.hiddenField = document.getElementById('recipientField');
+          
+          if (!this.container || !this.input) return;
+
+          // 从隐藏字段加载已有值
+          this.loadFromField();
+
+          // 绑定事件
+          this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
+          this.input.addEventListener('compositionend', (e) => this.handleCompositionEnd(e));
+          this.input.addEventListener('paste', (e) => this.handlePaste(e));
+          this.input.addEventListener('blur', () => this.handleBlur());
+          
+          // 点击容器聚焦输入框
+          this.container.addEventListener('click', (e) => {
+            if (e.target === this.container) {
+              this.input.focus();
+            }
+          });
+        },
+
+        loadFromField() {
+          const value = this.hiddenField.value;
+          if (value) {
+            const emails = value.split(/[\n,;]/).map(e => e.trim()).filter(e => e);
+            emails.forEach(email => this.addRecipient(email, false));
+          }
+        },
+
+        handleKeydown(e) {
+          // 回车触发添加（但忽略输入法组合过程中的回车）
+          if (e.key === 'Enter' && !e.isComposing) {
+            e.preventDefault();
+            this.addRecipient(this.input.value.trim());
+          }
+          // 退格键且输入框为空时，删除最后一个标签
+          else if (e.key === 'Backspace' && this.input.value === '' && this.recipients.length > 0) {
+            this.removeRecipient(this.recipients.length - 1);
+          }
+        },
+
+        handleCompositionEnd(e) {
+          // 输入法组合结束，重置isComposing状态
+          this.input.isComposing = false;
+        },
+
+        handlePaste(e) {
+          e.preventDefault();
+          const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+          this.processMultipleEmails(pastedText);
+        },
+
+        handleBlur() {
+          // 延迟处理，让点击删除按钮的事件先执行
+          setTimeout(() => {
+            if (this.input.value.trim()) {
+              this.addRecipient(this.input.value.trim());
+            }
+          }, 200);
+        },
+
+        processMultipleEmails(text) {
+          // 支持换行、逗号、分号分隔
+          const emails = text.split(/[\n,;]/).map(e => e.trim()).filter(e => e);
+          emails.forEach(email => this.addRecipient(email, false));
+          this.updateField();
+          this.input.focus();
+        },
+
+        isValidEmail(email) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        },
+
+        addRecipient(email, update = true) {
+          if (!email) return;
+
+          // 检查是否已存在
+          if (this.recipients.includes(email)) {
+            this.input.value = '';
+            return;
+          }
+
+          this.recipients.push(email);
+          this.renderTag(email);
+          this.input.value = '';
+          
+          if (update) {
+            this.updateField();
+          }
+        },
+
+        renderTag(email) {
+          const isValid = this.isValidEmail(email);
+          const tag = document.createElement('div');
+          tag.className = `recipient-tag ${!isValid ? 'invalid' : ''}`;
+
+          const textSpan = document.createElement('span');
+          textSpan.className = 'recipient-tag-text';
+          textSpan.textContent = email;
+          textSpan.title = email;
+
+          const removeBtn = document.createElement('span');
+          removeBtn.className = 'recipient-tag-remove';
+          removeBtn.title = '删除';
+          removeBtn.innerHTML = '<i class="bi bi-x"></i>';
+          removeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.removeRecipientByEmail(email);
+          });
+
+          tag.appendChild(textSpan);
+          tag.appendChild(removeBtn);
+          this.container.insertBefore(tag, this.input);
+        },
+
+        removeRecipient(index) {
+          if (index < 0 || index >= this.recipients.length) return;
+          
+          const email = this.recipients[index];
+          this.removeRecipientByEmail(email);
+        },
+
+        removeRecipientByEmail(email) {
+          const index = this.recipients.indexOf(email);
+          if (index === -1) return;
+
+          // 找到对应的标签元素并添加移除动画
+          const tags = this.container.querySelectorAll('.recipient-tag');
+          tags.forEach(tag => {
+            const tagText = tag.querySelector('.recipient-tag-text');
+            if (tagText && tagText.textContent === email) {
+              tag.classList.add('removing');
+              setTimeout(() => tag.remove(), 200);
+            }
+          });
+
+          this.recipients.splice(index, 1);
+          this.updateField();
+        },
+
+        updateField() {
+          // 更新隐藏字段，用换行符分隔
+          this.hiddenField.value = this.recipients.join('\n');
+        }
+      };
+
       function updateFileName(input) {
           var display = document.getElementById('fileNameDisplay');
           var text = document.getElementById('fileNameText');
@@ -167,7 +368,14 @@
       document.getElementById('emailForm').addEventListener('submit', function(e) {
           var submitBtn = document.getElementById('submitBtn');
           var progressContainer = document.getElementById('progressContainer');
+
+          if (window.EmailCompose && typeof window.EmailCompose.sync === 'function') {
+              window.EmailCompose.sync();
+          }
           
+          // 确保收件人字段已更新
+          RecipientManager.updateField();
+
           if (this.checkValidity()) {
               submitBtn.disabled = true;
               submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> 发送中...';
@@ -177,6 +385,9 @@
 
       // 初始化并显示 Toast
       document.addEventListener('DOMContentLoaded', function() {
+          // 初始化收件人管理器
+          RecipientManager.init();
+
           var toastElList = [].slice.call(document.querySelectorAll('.toast'));
           var toastList = toastElList.map(function (toastEl) {
               // 隐藏后从 DOM 中移除以防止内存泄漏
@@ -189,6 +400,38 @@
               toast.show();
           });
       });
+
+      // 文件拖放功能
+      function handleFileDragOver(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          document.getElementById('fileUploadWrapper').classList.add('drag-over');
+      }
+
+      function handleFileDragLeave(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          document.getElementById('fileUploadWrapper').classList.remove('drag-over');
+      }
+
+      function handleFileDrop(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          document.getElementById('fileUploadWrapper').classList.remove('drag-over');
+          
+          var files = e.dataTransfer.files;
+          if (files && files.length > 0) {
+              var fileInput = document.getElementById('fileInput');
+              // 创建一个新的 DataTransfer 对象来设置文件
+              var dataTransfer = new DataTransfer();
+              for (var i = 0; i < files.length; i++) {
+                  dataTransfer.items.add(files[i]);
+              }
+              fileInput.files = dataTransfer.files;
+              // 触发 onchange 事件
+              updateFileName(fileInput);
+          }
+      }
     </script>
   </body>
 </html>

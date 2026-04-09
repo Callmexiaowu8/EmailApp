@@ -2,6 +2,8 @@
 
 这是一个基于 Python 开发的 Web 服务，提供用户友好的网页界面，用于发送包含附件的邮件。该项目使用 Flask 框架和标准 Python 库构建。
 
+lsof -ti:8000 | xargs -r kill -9 2>/dev/null; sleep 1 && uv run app.py   
+
 ## 功能特性
 
 - **用户界面**：使用 Bootstrap 5 构建的整洁、响应式网页表单。
