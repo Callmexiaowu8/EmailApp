@@ -1,0 +1,137 @@
+INFO:     Started server process [57898]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:49786 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49786 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:49809 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49811 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49820 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49811 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49820 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49820 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49850 - "POST /send HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52827 - "GET /apple-touch-icon.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52828 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52826 - "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52825 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52838 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52840 - "GET /static/compose_editor.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52839 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52842 - "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52843 - "GET /apple-touch-icon.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52844 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52839 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52842 - "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52843 - "GET /apple-touch-icon.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52844 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52842 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52843 - "GET /apple-touch-icon.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52844 - "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52857 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52857 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52860 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52857 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64168 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64166 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64169 - "GET /static/compose_editor.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64199 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64199 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64199 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64199 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64199 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64199 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64199 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64304 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64306 - "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64304 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64306 - "GET /apple-touch-icon.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64306 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     Started server process [57506]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:49467 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49467 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49467 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49467 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55247 - "POST /send HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55275 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55277 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55282 - "POST /api/inline-images HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55282 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55282 - "POST /api/inline-images HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55282 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55336 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     Started server process [69941]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:57714 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57714 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57714 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57714 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57714 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57714 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57714 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57714 - "POST /api/inline-images HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57763 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57790 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57792 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57761 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57792 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57792 - "POST /api/inline-images HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57792 - "GET /inline-images/f27c5a062190401890fa51846fa85790.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57792 - "POST /send HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57848 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57850 - "GET /static/compose_editor.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:57848 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:57865 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57865 - "POST /api/inline-images HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:57881 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57881 - "POST /api/inline-images HTTP/1.1" 422 Unprocessable Entity
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [69941]
+INFO:     Started server process [74034]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:58060 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58060 - "POST /api/inline-images HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:58074 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58074 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58076 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58076 - "POST /api/inline-images HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58076 - "POST /send HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58076 - "POST /api/inline-images HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58185 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58185 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58186 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58186 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58186 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58185 - "GET /static/compose_editor.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58185 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58185 - "POST /api/inline-images HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58185 - "GET /inline-images/bd2bf4f9e33f4a3bb4191a2d24d21efd.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58185 - "POST /send HTTP/1.1" 200 OK

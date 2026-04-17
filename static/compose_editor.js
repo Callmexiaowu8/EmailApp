@@ -191,8 +191,7 @@
       bar.style.width = "100%";
     }
     if (st) st.textContent = status || (ok ? "完成" : "失败");
-    
-    // 成功上传后3秒自动隐藏
+
     if (ok) {
       setTimeout(() => {
         if (row && row.parentNode) {
@@ -202,7 +201,6 @@
           setTimeout(() => {
             if (row && row.parentNode) {
               row.remove();
-              // 如果没有其他上传项，隐藏整个容器
               if (uploadList && uploadList.querySelectorAll(".inline-upload-row").length === 0) {
                 uploadList.classList.add("d-none");
               }
@@ -215,7 +213,7 @@
 
   const uploadInlineImage = async (file, row) => {
     const payload = new FormData();
-    payload.append("image", file, file.name);
+    payload.append("file", file, file.name);
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();

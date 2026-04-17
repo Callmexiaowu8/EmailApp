@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>邮件发送服务</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1055;" id="toastContainer">
+    </div>
+
+    <div class="container py-3 animate-fade-in">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+          <div class="text-center mb-3">
+            <div class="mb-2 text-primary">
+                <i class="bi bi-envelope-paper-heart-fill display-5"></i>
+            </div>
+            <h1 class="h1 fw-bold mb-1">✉️邮件发送服务</h1>
+          </div>
+
+          <div class="custom-card">
+            <div class="card-header-custom">
+              <h5 class="mb-0 fw-bold d-flex align-items-center">
+                  <i class="bi bi-pencil-square me-2 text-primary"></i> 撰写新邮件
+              </h5>
+            </div>
+            <div class="card-body-custom">
+              <form id="emailForm" enctype="multipart/form-data">
+
+                <div class="info-box-modern mb-3">
+                    <div class="info-row">
+                        <label class="info-label-modern mb-0">发件人</label>
+                        <div class="info-value-modern">
+                            <div class="avatar-circle">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="sender-container">
+                                <span class="sender-tag">{{ sender }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <label class="info-label-modern mb-0">收件人</label>
+                        <div class="info-value-modern">
+                            <div class="avatar-circle" style="background-color: #F0FDF4; color: #16A34A;">
+                                <i class="bi bi-envelope-fill"></i>
+                            </div>
+                            <div class="recipient-input-container" id="recipientContainer">
+                                <input type="text"
+                                       class="recipient-input-field"
+                                       id="recipientInput"
+                                       placeholder=""
+                                       autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="recipientField" name="recipient" value="{{ default_recipient or '' }}" data-default-value="{{ default_recipient or '' }}">
+
+                    {% for error in recipient_errors %}
+                        <div class="text-danger mt-1 small text-center">
+                            <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="info-row">
+                        <label class="info-label-modern mb-0">主题</label>
+                        <div class="info-value-modern">
+                            <div class="avatar-circle" style="background-color: #FEF3C7; color: #D97706;">
+                                <i class="bi bi-chat-left-text-fill"></i>
+                            </div>
+                            <div class="subject-container">
+                                <input type="text"
+                                       class="input-invisible"
+                                       id="subjectInput"
+                                       name="subject"
+                                       placeholder="可自定义，留空将使用默认主题：{{ default_subject }}">
+                            </div>
+                        </div>
+                    </div>
+                    {% for error in subject_errors %}
+                        <div class="text-danger mt-1 small text-center">
+                            <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">邮件正文</label>
+                  <div class="rte-toolbar rounded bg-light p-2 mb-2">
+                    <button type="button" class="rte-btn" data-cmd="bold" title="加粗 (Ctrl+B)">
+                      <i class="bi bi-type-bold"></i>
+                    </button>
+                    <button type="button" class="rte-btn" data-cmd="italic" title="斜体 (Ctrl+I)">
+                      <i class="bi bi-type-italic"></i>
+                    </button>
+                    <button type="button" class="rte-btn" data-cmd="underline" title="下划线 (Ctrl+U)">
+                      <i class="bi bi-type-underline"></i>
+                    </button>
+                    <div class="rte-divider"></div>
+                    <button type="button" class="rte-btn" data-cmd="insertUnorderedList" title="无序列表">
+                      <i class="bi bi-list-ul"></i>
+                    </button>
+                    <button type="button" class="rte-btn" data-cmd="insertOrderedList" title="有序列表">
+                      <i class="bi bi-list-ol"></i>
+                    </button>
+                    <div class="rte-divider"></div>
+                    <button type="button" class="rte-btn text-primary" id="insertImageBtn" title="插入图片">
+                      <i class="bi bi-image-fill"></i>
+                    </button>
+                    <input type="file" id="inlineImagePicker" accept="image/*" class="d-none">
+                    <span class="rte-hint ms-auto">支持直接粘贴或拖拽图片</span>
+                  </div>
+                  <div id="inlineUploadList" class="mb-2 d-none"></div>
+                  <div id="rteEditor"
+                       class="rte-editor is-empty"
+                       contenteditable="true"
+                       data-placeholder="输入邮件内容..."
+                       spellcheck="false"></div>
+                  <input type="hidden" id="contentField" name="content">
+                  {% for error in content_errors %}
+                      <div class="text-danger mt-1 small text-center">
+                          <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                      </div>
+                  {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">附件上传</label>
+                  <div class="file-upload-wrapper" id="fileUploadWrapper" ondragover="handleFileDragOver(event)" ondragleave="handleFileDragLeave(event)" ondrop="handleFileDrop(event)">
+                      <i class="bi bi-cloud-arrow-up display-5 text-primary mb-1"></i>
+                      <p class="mb-0 fw-medium small">点击或拖拽文件到此处</p>
+                      <p class="text-secondary small mb-0">支持 PDF, Word, 图片等 (最大 30MB)</p>
+                      <input type="file" class="d-none" id="fileInput" name="file" onchange="updateFileName(this)">
+                  </div>
+                  <div id="fileNameDisplay" class="mt-2 text-success small fw-medium text-center animate-fade-in d-none">
+                      <i class="bi bi-check2-circle me-1"></i> <span id="fileNameText"></span>
+                  </div>
+                  <div id="fileErrors"></div>
+                </div>
+
+                <div class="d-grid pt-1">
+                  <button type="submit" class="btn btn-primary-custom" id="submitBtn">
+                    <i class="bi bi-send me-2"></i>发送邮件
+                  </button>
+                </div>
+
+                <div id="progressContainer" class="progress mt-3 d-none">
+                  <div class="progress-bar progress-bar-custom progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/compose_editor.js"></script>
+    <script>
+      function escapeHtml(s) {
+        const div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      const RecipientManager = {
+        recipients: [],
+        container: null,
+        input: null,
+        hiddenField: null,
+
+        init() {
+          this.container = document.getElementById('recipientContainer');
+          this.input = document.getElementById('recipientInput');
+          if (!this.container || !this.input) return;
+
+          this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
+          this.input.addEventListener('compositionend', (e) => this.handleCompositionEnd(e));
+          this.input.addEventListener('paste', (e) => this.handlePaste(e));
+          this.input.addEventListener('blur', () => this.handleBlur());
+
+          this.container.addEventListener('click', (e) => {
+            if (e.target === this.container) {
+              this.input.focus();
+            }
+          });
+        },
+
+        loadFromField() {
+          const value = this.hiddenField?.value || '';
+          if (value) {
+            const emails = value.split(/[\n,;]/).map(e => e.trim()).filter(e => e);
+            emails.forEach(email => this.addRecipient(email, false));
+          }
+        },
+
+        handleKeydown(e) {
+          if (e.key === 'Enter' && !e.isComposing) {
+            e.preventDefault();
+            this.addRecipient(this.input.value.trim());
+          }
+          else if (e.key === 'Backspace' && this.input.value === '' && this.recipients.length > 0) {
+            this.removeRecipient(this.recipients.length - 1);
+          }
+        },
+
+        handleCompositionEnd(e) {
+          this.input.isComposing = false;
+        },
+
+        handlePaste(e) {
+          e.preventDefault();
+          const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+          this.processMultipleEmails(pastedText);
+        },
+
+        handleBlur() {
+          setTimeout(() => {
+            if (this.input.value.trim()) {
+              this.addRecipient(this.input.value.trim());
+            }
+          }, 200);
+        },
+
+        processMultipleEmails(text) {
+          const emails = text.split(/[\n,;]/).map(e => e.trim()).filter(e => e);
+          emails.forEach(email => this.addRecipient(email, false));
+        },
+
+        isValidEmail(email) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        },
+
+        addRecipient(email, update = true) {
+          if (!email) return;
+          if (this.recipients.includes(email)) {
+            this.input.value = '';
+            return;
+          }
+
+          this.recipients.push(email);
+          this.renderTag(email);
+          this.input.value = '';
+
+          if (update) {
+            this.updateField();
+          }
+        },
+
+        renderTag(email) {
+          const isValid = this.isValidEmail(email);
+          const tag = document.createElement('div');
+          tag.className = `recipient-tag ${!isValid ? 'invalid' : ''}`;
+
+          const textSpan = document.createElement('span');
+          textSpan.className = 'recipient-tag-text';
+          textSpan.textContent = email;
+          textSpan.title = email;
+
+          const removeBtn = document.createElement('span');
+          removeBtn.className = 'recipient-tag-remove';
+          removeBtn.title = '删除';
+          removeBtn.innerHTML = '<i class="bi bi-x"></i>';
+          removeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.removeRecipientByEmail(email);
+          });
+
+          tag.appendChild(textSpan);
+          tag.appendChild(removeBtn);
+          this.container.insertBefore(tag, this.input);
+        },
+
+        removeRecipient(index) {
+          if (index < 0 || index >= this.recipients.length) return;
+          const email = this.recipients[index];
+          this.removeRecipientByEmail(email);
+        },
+
+        removeRecipientByEmail(email) {
+          const index = this.recipients.indexOf(email);
+          if (index === -1) return;
+
+          this.recipients.splice(index, 1);
+
+          this.container.querySelectorAll('.recipient-tag').forEach(tag => {
+            const tagText = tag.querySelector('.recipient-tag-text');
+            if (tagText && tagText.textContent === email) {
+              tag.classList.add('removing');
+              setTimeout(() => tag.remove(), 200);
+            }
+          });
+
+          this.updateField();
+        },
+
+        updateField() {
+          if (this.hiddenField) {
+            this.hiddenField.value = this.recipients.join('\n');
+          }
+        }
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        RecipientManager.hiddenField = document.getElementById('recipientField') || {
+          get value() { return ''; },
+          set value(v) {
+            const existing = v ? v.split('\n') : [];
+            RecipientManager.recipients = existing;
+          }
+        };
+        RecipientManager.init();
+        RecipientManager.loadFromField();
+
+        const fileUploadWrapper = document.getElementById('fileUploadWrapper');
+        if (fileUploadWrapper) {
+          fileUploadWrapper.addEventListener('click', () => {
+            document.getElementById('fileInput')?.click();
+          });
+        }
+      });
+
+      function updateFileName(input) {
+        const display = document.getElementById('fileNameDisplay');
+        const text = document.getElementById('fileNameText');
+        const errors = document.getElementById('fileErrors');
+        if (!display || !text) return;
+
+        errors.innerHTML = '';
+        if (input.files && input.files.length > 0) {
+          const file = input.files[0];
+          text.textContent = file.name;
+          display.classList.remove('d-none');
+          display.classList.remove('text-danger');
+          display.classList.add('text-success');
+        }
+      }
+
+      function handleFileDragOver(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.getElementById('fileUploadWrapper').classList.add('drag-over');
+      }
+
+      function handleFileDragLeave(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.getElementById('fileUploadWrapper').classList.remove('drag-over');
+      }
+
+      function handleFileDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.getElementById('fileUploadWrapper').classList.remove('drag-over');
+
+        var files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+          var fileInput = document.getElementById('fileInput');
+          var dataTransfer = new DataTransfer();
+          for (var i = 0; i < files.length; i++) {
+            dataTransfer.items.add(files[i]);
+          }
+          fileInput.files = dataTransfer.files;
+          updateFileName(fileInput);
+        }
+      }
+
+      function showToast(message, variant) {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+
+        const bg = variant === 'success' ? 'success' : 'danger';
+        const icon = variant === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill';
+        const el = document.createElement('div');
+        el.className = `toast align-items-center text-white bg-${bg} border-0 shadow-lg`;
+        el.role = 'alert';
+        el.ariaLive = 'assertive';
+        el.ariaAtomic = 'true';
+        el.dataset.bsDelay = '5000';
+        el.innerHTML = `
+          <div class="d-flex">
+            <div class="toast-body fs-6">
+              <i class="bi bi-${icon} me-2"></i>${escapeHtml(message)}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        `;
+        container.appendChild(el);
+        const toast = new bootstrap.Toast(el);
+        el.addEventListener('hidden.bs.toast', () => el.remove());
+        toast.show();
+      }
+
+      document.getElementById('emailForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const progressContainer = document.getElementById('progressContainer');
+
+        if (window.EmailCompose && typeof window.EmailCompose.sync === 'function') {
+          window.EmailCompose.sync();
+        }
+
+        RecipientManager.updateField();
+
+        const recipientValue = RecipientManager.recipients.join('\n');
+        const subject = document.getElementById('subjectInput')?.value || '';
+        const content = document.getElementById('contentField')?.value || '';
+        const fileInput = document.getElementById('fileInput');
+
+        if (!recipientValue.trim()) {
+          showToast('请输入收件人邮箱', 'danger');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> 发送中...';
+        progressContainer.classList.remove('d-none');
+
+        const formData = new FormData();
+        formData.append('recipient', recipientValue);
+        formData.append('subject', subject);
+        formData.append('content', content);
+        if (fileInput?.files?.[0]) {
+          formData.append('file', fileInput.files[0]);
+        }
+
+        try {
+          const response = await fetch('/send', {
+            method: 'POST',
+            body: formData
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            showToast('邮件发送成功！', 'success');
+            // 清空收件人并重新加载默认收件人
+            RecipientManager.recipients = [];
+            RecipientManager.container?.querySelectorAll('.recipient-tag').forEach(tag => tag.remove());
+            // 重置 hiddenField 为默认收件人值
+            const defaultRecipient = document.getElementById('recipientField')?.dataset?.defaultValue || '';
+            if (RecipientManager.hiddenField) {
+              RecipientManager.hiddenField.value = defaultRecipient;
+            }
+            // 重新加载默认收件人
+            RecipientManager.loadFromField();
+            document.getElementById('subjectInput').value = '';
+            document.getElementById('rteEditor').innerHTML = '';
+            document.getElementById('contentField').value = '';
+            if (fileInput) fileInput.value = '';
+            document.getElementById('fileNameDisplay')?.classList.add('d-none');
+          } else {
+            showToast(result.message || '发送失败', 'danger');
+          }
+        } catch (error) {
+          showToast('网络错误，请重试', 'danger');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="bi bi-send me-2"></i>发送邮件';
+          progressContainer.classList.add('d-none');
+        }
+      });
+    </script>
+  </body>
+</html>
